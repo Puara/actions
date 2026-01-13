@@ -22,6 +22,7 @@ runs:
 
     # setup the repository to checkout the continuous branch
     - name: push puara-arduino repo
+      shell: bash
       run: |
         cd puara-arduino || exit 1
         git fetch
@@ -35,6 +36,7 @@ runs:
         path: ./puara-arduino
 
     - name: push puara-arduino repo
+      shell: bash
       run: |
         cd puara-arduino || exit 1
 

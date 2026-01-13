@@ -27,6 +27,7 @@ runs:
         path: puara-arduino
 
     - name: Generate puara-arduino repo
+      shell: bash
       run: |
         PUARA_MODULE_SOURCES=(
           src data
