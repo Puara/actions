@@ -1,0 +1,53 @@
+name: 'push-arduino-library'
+description: 'push the generated arduino library to the puara-arduino repository'
+
+inputs:
+  puara-arduino-repo-token:
+    description: 'token used to access the arduino repo'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: puara/puara-module
+        path: puara-module
+
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ inputs.puara-arduino-repo-token }}
+        repository: puara/puara-arduino
+        path: puara-arduino
+
+    # setup the repository to checkout the continuous branch
+    - name: push puara-arduino repo
+      run: |
+        cd puara-arduino || exit 1
+        git fetch
+        git checkout continuous
+
+    # this should overwrite the changed files over the repository
+    - name: Download puara-arduino artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: puara-arduino
+        path: ./puara-arduino
+
+    - name: push puara-arduino repo
+      run: |
+        cd puara-arduino || exit 1
+
+        git config user.name "puara-bot"
+        git config user.email "puara-bot@sat.qc.ca"
+
+        # looks to see if there is something to commit.
+        # thanks stackoverflow : https://superuser.com/a/1274914
+        if [ `git status --porcelain=1 | wc -l` -eq 0 ]; then
+            echo "Nothing to commit."
+            exit 0
+        else
+            git add -A
+            git commit -am "$GITHUB_REF :: $GITHUB_SHA"
+            git push --set-upstream origin continuous --force
+        fi

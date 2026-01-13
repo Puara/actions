@@ -1,0 +1,80 @@
+name: 'generate-arduino-library'
+description: 'generate puara-arduino from puara-module and puara-module-templates'
+
+inputs:
+  puara-arduino-repo-token:
+    description: 'token used to access the arduino repo'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/checkout@v4
+      with:
+        repository: puara/puara-module
+        path: puara-module
+
+    - uses: actions/checkout@v4
+      with:
+        repository: puara/puara-module-templates
+        path: puara-module-templates
+
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ inputs.puara-arduino-repo-token }}
+        repository: puara/puara-arduino
+        path: puara-arduino
+
+    - name: Generate puara-arduino repo
+      run: |
+        PUARA_MODULE_SOURCES=(
+          src data
+          .clang-format .gitignore library.properties
+          LICENSE README.md
+        )
+
+        PUARA_TEMPLATES=(
+          basic basic-osc ble-advertising
+        )
+        # 1. Recreate repo
+        (
+          cd puara-arduino || exit 1
+
+          git config user.name "puara-bot"
+          git config user.email "puara-bot@sat.qc.ca"
+
+          git checkout -b continuous
+          rm -rf "${PUARA_MODULE_SOURCES[@]}" examples
+        )
+        # 2. Copy puara-module
+        (
+          cd puara-module || exit 1
+          cp -rf "${PUARA_MODULE_SOURCES[@]}" ../puara-arduino/
+        )
+        # 3. Copy puara-module-templates
+        (
+          cd puara-module-templates || exit 1
+
+          shopt -s nullglob
+
+          for template in "${PUARA_TEMPLATES[@]}"; do
+            mkdir -p "../puara-arduino/examples/$template"
+            cp -rf "$template/src/main.cpp" "../puara-arduino/examples/$template/$template.ino"
+            # remove main.cpp to avoid copying it again.
+            rm "$template/src/main.cpp"
+            headers=( "$template/src/"*.{c,cpp,h,hpp} )
+            if ((${#headers[@]})); then
+              cp -rf "${headers[@]}" "../puara-arduino/examples/$template/"
+            fi
+
+            cp -rf "$template/data" "../puara-arduino/examples/$template/data"
+          done
+        )
+
+
+    - name: Upload puara-arduino artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: puara-arduino
+          path: puara-arduino

@@ -1,0 +1,16 @@
+name: 'lint-arduino-library'
+description: 'lint the arduino library. Depends on the puara-arduino artifact'
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: puara-arduino
+
+    - uses: arduino/arduino-lint-action@v2
+      with:
+        project-type: library
+        compliance: strict
+        library-manager: submit
