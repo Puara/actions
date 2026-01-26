@@ -36,7 +36,7 @@ runs:
         )
 
         PUARA_TEMPLATES=(
-          basic basic-osc ble-advertising
+          basic OSC-Duplex OSC-Send OSC-Receive ble-advertising
         )
         # 1. Recreate repo
         (
