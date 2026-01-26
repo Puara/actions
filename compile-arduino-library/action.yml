@@ -73,5 +73,4 @@ runs:
         arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Duplex/OSC-Duplex.ino
         arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Send/OSC-Send.ino
         arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Receive/OSC-Receive.ino
-        arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/basic-osc/basic-osc.ino
         arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/ble-advertising/ble-advertising.ino
