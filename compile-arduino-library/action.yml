@@ -60,9 +60,9 @@ runs:
       shell: bash
       run: |
         arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/basic/basic.ino
-        arduino-cli compile --fqbn esp32:esp32:m5stack-stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Duplex/OSC-Duplex.ino
-        arduino-cli compile --fqbn esp32:esp32:m5stack-stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Send/OSC-Send.ino
-        arduino-cli compile --fqbn esp32:esp32:m5stack-stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Receive/OSC-Receive.ino
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Duplex/OSC-Duplex.ino
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Send/OSC-Send.ino
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Receive/OSC-Receive.ino
         arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/ble-advertising/ble-advertising.ino
 
     # Compile Example Sketches for Xiao ESP32-S3
