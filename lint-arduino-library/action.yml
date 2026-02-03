@@ -13,4 +13,4 @@ runs:
       with:
         project-type: library
         compliance: strict
-        library-manager: submit
+        library-manager: update
