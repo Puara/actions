@@ -32,7 +32,7 @@ runs:
       shell: bash
       run: |
         arduino-cli lib list
-        arduino-cli lib install "OSC" "ArduinoBLE"
+        arduino-cli lib install "OSC" "NimBLE-Arduino"
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
 

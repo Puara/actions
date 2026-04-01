@@ -33,7 +33,7 @@ Compiles the Arduino library against multiple microcontroller boards to ensure c
 **What it does:**
 - Downloads the `puara-arduino` artifact
 - Installs Arduino CLI and required board cores (ESP32)
-- Installs library dependencies (OSC, ArduinoBLE)
+- Installs library dependencies (OSC, NimBLE-Arduino)
 - Compiles example sketches for 4 different board types:
   - TinyPICO
   - XIAO ESP32-S3
