@@ -1,0 +1,76 @@
+name: 'compile-arduino-library'
+description: 'compiles the different templates to make sure they work'
+
+# TODO: use a build matrix instead of hardcoding the combinatorial explosion.
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download puara-arduino artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: puara-arduino
+
+    - name: Install Arduino CLI
+      shell: bash
+      run: |
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+          export PATH="$PWD/bin:$PATH"
+          echo "$PWD/bin" >> $GITHUB_PATH
+          arduino-cli version
+          arduino-cli config init
+          arduino-cli core update-index
+
+    # Install Board Cores
+    - name: Install ESP32 Core
+      shell: bash
+      run: |
+        arduino-cli core install esp32:esp32
+
+    # Install Library Dependencies
+    - name: Install Library Dependencies
+      shell: bash
+      run: |
+        arduino-cli lib list
+        arduino-cli lib install "OSC" "NimBLE-Arduino"
+        mkdir -p $HOME/Arduino/libraries
+        ln -s $PWD $HOME/Arduino/libraries/puara
+
+    # Compile Example Sketches for Tinypico
+    - name: Compile for TinyPICO
+      shell: bash
+      run: |
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/basic/basic.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Duplex/OSC-Duplex.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Send/OSC-Send.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Receive/OSC-Receive.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/ble-advertising/ble-advertising.ino
+    # Compile Example Sketches for Xiao ESP32-S3
+    - name: Compile for XIAO ESP32-S3
+      shell: bash
+      run: |
+        arduino-cli compile --fqbn esp32:esp32:XIAO_ESP32S3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/basic/basic.ino
+        arduino-cli compile --fqbn esp32:esp32:XIAO_ESP32S3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Duplex/OSC-Duplex.ino
+        arduino-cli compile --fqbn esp32:esp32:XIAO_ESP32S3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Send/OSC-Send.ino
+        arduino-cli compile --fqbn esp32:esp32:XIAO_ESP32S3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Receive/OSC-Receive.ino
+        arduino-cli compile --fqbn esp32:esp32:XIAO_ESP32S3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/ble-advertising/ble-advertising.ino
+
+    # Compile Example Sketches for
+    - name: Compile for M5StickC
+      shell: bash
+      run: |
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/basic/basic.ino
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Duplex/OSC-Duplex.ino
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Send/OSC-Send.ino
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Receive/OSC-Receive.ino
+        arduino-cli compile --fqbn esp32:esp32:m5stack_stickc --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/ble-advertising/ble-advertising.ino
+
+    # Compile Example Sketches for Xiao ESP32-S3
+    - name: Compile for ESP32C3 Dev Module
+      shell: bash
+      run: |
+        arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/basic/basic.ino
+        arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Duplex/OSC-Duplex.ino
+        arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Send/OSC-Send.ino
+        arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/OSC-Receive/OSC-Receive.ino
+        arduino-cli compile --fqbn esp32:esp32:esp32c3 --build-property build.partitions=min_spiffs --build-property upload.maximum_size=1966080 examples/ble-advertising/ble-advertising.ino

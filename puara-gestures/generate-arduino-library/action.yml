@@ -1,0 +1,54 @@
+name: 'generate-puara-gesturesarduino-library'
+description: 'generate puara-gestures-arduino from puara-gestures'
+
+inputs:
+  puara-arduino-repo-token:
+    description: 'token used to access the arduino repo'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/checkout@v4
+      with:
+        repository: puara/puara-gestures
+        path: puara-gestures
+
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ inputs.puara-gestures-arduino-repo-token }}
+        repository: puara/puara-gestures-arduino
+        path: puara-gestures-arduino
+
+    - name: Generate puara-gestures-arduino repo
+      shell: bash
+      run: |
+        PUARA_MODULE_SOURCES=(
+          src data
+          .clang-format .gitignore library.properties
+          LICENSE README.md
+        )
+
+        # 1. Recreate repo
+        (
+          cd puara-gestures-arduino || exit 1
+
+          git config user.name "puara-bot"
+          git config user.email "puara-bot@sat.qc.ca"
+
+          git checkout -b continuous
+        #  rm -rf "${PUARA_MODULE_SOURCES[@]}" examples
+        )
+        # 2. Copy puara-module
+        (
+          cd puara-gestures || exit 1
+          cp -rf "${PUARA_MODULE_SOURCES[@]}" ../puara-gestures-arduino/
+        )
+
+
+    - name: Upload puara-gesturesarduino artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: puara-gestures-arduino
+          path: puara-gestures-arduino
