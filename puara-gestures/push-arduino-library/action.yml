@@ -11,24 +11,10 @@ runs:
   steps:
     - uses: actions/checkout@v4
       with:
-        repository: puara/puara-gestures
-        path: puara-gestures
-
-    - uses: actions/checkout@v4
-      with:
         token: ${{ inputs.puara-arduino-repo-token }}
         repository: puara/puara-gestures-arduino
         path: puara-gestures-arduino
 
-    # setup the repository to checkout the continuous branch
-    - name: push puara-gestures-arduino repo
-      shell: bash
-      run: |
-        cd puara-gestures-arduino || exit 1
-        git fetch
-        git checkout continuous
-
-    # this should overwrite the changed files over the repository
     - name: Download puara-arduino artifact
       uses: actions/download-artifact@v4
       with:
