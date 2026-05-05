@@ -38,12 +38,18 @@ runs:
 
           git checkout -b continuous
         #  rm -rf "${PUARA_GESTURES_SOURCES[@]}" examples
+          mkdir -p examples 
+          mkdir -p src
         )
         # 2. Copy puara-gestures sources to puara-gestures-arduino
         (
           cd puara-gestures || exit 1
-          cp -rf "${PUARA_GESTURES_SOURCES[@]}" ../puara-gestures-arduino/
-        )
+          cp -rf examples/arduino/* ../puara-gestures-arduino/examples/
+          cp -rf src/* ../puara-gestures-arduino/src/
+          cp -rf include/* ../puara-gestures-arduino/src/
+          cp library.properties ../puara-gestures-arduino/
+          cp LICENSE ../puara-gestures-arduino/
+          cp README.md ../puara-gestures-arduino/)
 
 
     - name: Upload puara-gesturesarduino artifact
