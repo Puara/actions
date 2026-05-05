@@ -1,5 +1,5 @@
 name: 'push-arduino-library'
-description: 'push the generated arduino library to the puara-arduino repository'
+description: 'push the generated arduino library to the puara-gestures-arduino repository'
 
 inputs:
   puara-arduino-repo-token:
@@ -11,20 +11,20 @@ runs:
   steps:
     - uses: actions/checkout@v4
       with:
-        repository: puara/puara-module
-        path: puara-module
+        repository: puara/puara-gestures
+        path: puara-gestures
 
     - uses: actions/checkout@v4
       with:
         token: ${{ inputs.puara-arduino-repo-token }}
-        repository: puara/puara-arduino
-        path: puara-arduino
+        repository: puara/puara-gestures-arduino
+        path: puara-gestures-arduino
 
     # setup the repository to checkout the continuous branch
-    - name: push puara-arduino repo
+    - name: push puara-gestures-arduino repo
       shell: bash
       run: |
-        cd puara-arduino || exit 1
+        cd puara-gestures-arduino || exit 1
         git fetch
         git checkout continuous
 
@@ -32,13 +32,13 @@ runs:
     - name: Download puara-arduino artifact
       uses: actions/download-artifact@v4
       with:
-        name: puara-arduino
-        path: ./puara-arduino
+        name: puara-gestures-arduino
+        path: ./puara-gestures-arduino
 
-    - name: push puara-arduino repo
+    - name: push puara-gestures-arduino repo
       shell: bash
       run: |
-        cd puara-arduino || exit 1
+        cd puara-gestures-arduino || exit 1
 
         git config user.name "puara-bot"
         git config user.email "puara-bot@sat.qc.ca"
