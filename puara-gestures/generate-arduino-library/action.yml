@@ -24,8 +24,8 @@ runs:
     - name: Generate puara-gestures-arduino repo
       shell: bash
       run: |
-        PUARA_MODULE_SOURCES=(
-          src data
+        PUARA_GESTURES_SOURCES=(
+          src include examples/arduino
           .clang-format .gitignore library.properties
           LICENSE README.md
         )
@@ -38,12 +38,12 @@ runs:
           git config user.email "puara-bot@sat.qc.ca"
 
           git checkout -b continuous
-        #  rm -rf "${PUARA_MODULE_SOURCES[@]}" examples
+        #  rm -rf "${PUARA_GESTURES_SOURCES[@]}" examples
         )
-        # 2. Copy puara-module
+        # 2. Copy puara-gestures sources to puara-gestures-arduino
         (
           cd puara-gestures || exit 1
-          cp -rf "${PUARA_MODULE_SOURCES[@]}" ../puara-gestures-arduino/
+          cp -rf "${PUARA_GESTURES_SOURCES[@]}" ../puara-gestures-arduino/
         )
 
 
