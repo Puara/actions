@@ -37,5 +37,5 @@ runs:
         else
             git add -A
             git commit -am "$GITHUB_REF :: $GITHUB_SHA"
-            git push --set-upstream origin continuous --force
+            git push --set-upstream origin main --force
         fi
