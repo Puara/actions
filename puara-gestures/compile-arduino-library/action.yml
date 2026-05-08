@@ -33,11 +33,31 @@ runs:
       run: |
         arduino-cli lib list
         arduino-cli lib install "Eigen" "boost-embedded-190"
-        mkdir -p $HOME/Arduino/libraries
-        ln -s $PWD $HOME/Arduino/libraries/puara
+        mkdir -p "$HOME/Arduino/libraries"
+        cp -r . "$HOME/Arduino/libraries/puara"
 
     # Compile Example Sketches for TinyPICO
     - name: Compile for TinyPICO
       shell: bash
       run: |
-        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/blobDetector/blobDetector.ino
+        set -euo pipefail
+        shopt -s nullglob
+        mapfile -t sketches < <(find examples -type f -name '*.ino' | sort)
+
+        if [[ ${#sketches[@]} -eq 0 ]]; then
+          echo "No sketches found in examples"
+          exit 1
+        fi
+
+        for sketch in "${sketches[@]}"; do
+          sketch_name=$(basename "$sketch" .ino)
+          compile_target=$(mktemp -d)
+          mkdir -p "$compile_target/$sketch_name"
+          cp "$sketch" "$compile_target/$sketch_name/$sketch_name.ino"
+
+          echo "Compiling $sketch -> $compile_target/$sketch_name"
+          arduino-cli compile --fqbn esp32:esp32:um_tinypico \
+            --build-property build.partitions=min_spiffs \
+            --build-property upload.maximum_size=1966080 \
+            "$compile_target/$sketch_name"
+        done
