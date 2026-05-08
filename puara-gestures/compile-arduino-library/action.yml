@@ -33,8 +33,9 @@ runs:
       run: |
         arduino-cli lib list
         arduino-cli lib install "Eigen" "boost-embedded-190"
-        mkdir -p $HOME/Arduino/libraries
-        ln -s $PWD $HOME/Arduino/libraries/puara
+        mkdir -p "$HOME/Arduino/libraries"
+        rm -rf "$HOME/Arduino/libraries/puara"
+        ln -s "$PWD/puara-gestures-arduino" "$HOME/Arduino/libraries/puara"
 
     # Compile Example Sketches for TinyPICO
     - name: Compile for TinyPICO
