@@ -33,9 +33,6 @@ runs:
       run: |
         arduino-cli lib list
         arduino-cli lib install "Eigen" "boost-embedded-190"
-        mkdir -p "$HOME/Arduino/libraries"
-        rm -rf "$HOME/Arduino/libraries/puara"
-        ln -s "$PWD" "$HOME/Arduino/libraries/puara"
 
     # Compile Example Sketches for TinyPICO
     - name: Compile for TinyPICO
@@ -50,6 +47,8 @@ runs:
           exit 1
         fi
 
+        lib_root="$PWD"
+
         for sketch in "${sketches[@]}"; do
           sketch_name=$(basename "$sketch" .ino)
           compile_target=$(mktemp -d)
@@ -60,5 +59,6 @@ runs:
           arduino-cli compile --fqbn esp32:esp32:um_tinypico \
             --build-property build.partitions=min_spiffs \
             --build-property upload.maximum_size=1966080 \
+            --library "$lib_root" \
             "$compile_target/$sketch_name"
         done
