@@ -51,21 +51,14 @@ runs:
         fi
 
         for sketch in "${sketches[@]}"; do
-          sketch_dir=$(dirname "$sketch")
           sketch_name=$(basename "$sketch" .ino)
+          compile_target=$(mktemp -d)
+          mkdir -p "$compile_target/$sketch_name"
+          cp "$sketch" "$compile_target/$sketch_name/$sketch_name.ino"
 
-          if [[ $(basename "$sketch_dir") == "$sketch_name" ]]; then
-            compile_target="$sketch_dir"
-          else
-            compile_target=$(mktemp -d)
-            mkdir -p "$compile_target/$sketch_name"
-            cp "$sketch" "$compile_target/$sketch_name/$sketch_name.ino"
-            compile_target="$compile_target/$sketch_name"
-          fi
-
-          echo "Compiling $sketch -> $compile_target"
+          echo "Compiling $sketch -> $compile_target/$sketch_name"
           arduino-cli compile --fqbn esp32:esp32:um_tinypico \
             --build-property build.partitions=min_spiffs \
             --build-property upload.maximum_size=1966080 \
-            "$compile_target"
+            "$compile_target/$sketch_name"
         done
