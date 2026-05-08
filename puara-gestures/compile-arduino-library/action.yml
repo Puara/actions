@@ -32,7 +32,7 @@ runs:
       shell: bash
       run: |
         arduino-cli lib list
-        arduino-cli lib install "ArduinoEigen" "boost-embedded-190"
+        arduino-cli lib install "Eigen" "boost-embedded-190"
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
 
