@@ -21,12 +21,6 @@ runs:
           arduino-cli config init
           arduino-cli core update-index
 
-    # Install Board Cores
-    - name: Install ESP32 Core
-      shell: bash
-      run: |
-        arduino-cli core install esp32:esp32
-
     # Install Library Dependencies
     - name: Install Library Dependencies
       shell: bash
@@ -36,8 +30,8 @@ runs:
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
 
-    # Compile Example Sketches for TinyPICO
-    - name: Compile for TinyPICO
+    # Compile Example Sketches for nano33ble
+    - name: Compile for nano33ble
       shell: bash
       run: |
-        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/blobDetector/blobDetector.ino
+        arduino-cli compile --fqbn arduino:mbed_nano:nano33ble examples/utils/blobDetector/blobDetector.ino
