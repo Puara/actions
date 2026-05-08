@@ -66,5 +66,7 @@ runs:
           echo "Compiling $sketch -> $compile_target"
           arduino-cli compile --fqbn esp32:esp32:um_tinypico \
             --build-property build.partitions=min_spiffs \
-            --build-property upload.maximum_size=1966080 "$compile_target"
+            --build-property upload.maximum_size=1966080 \
+            --libraries "$PWD/puara-gestures-arduino" \
+            "$compile_target"
         done
