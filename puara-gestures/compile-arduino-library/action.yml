@@ -40,4 +40,4 @@ runs:
     - name: Compile for TinyPICO
       shell: bash
       run: |
-        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/blobDetector/blobDetector.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/blobDetector/blobDetector.ino
