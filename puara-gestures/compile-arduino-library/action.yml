@@ -34,20 +34,10 @@ runs:
       run: |
         arduino-cli lib list
         arduino-cli lib install "Eigen" "boost-embedded-190"
-        find .
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
-        # Expose Eigen and boost headers inside the puara src tree so transitive
-        # includes are resolved without relying on Arduino CLI's auto-detection
-        # (which only scans direct sketch includes).
-        EIGEN_DIR=$(find $HOME/Arduino/libraries -maxdepth 4 -type d -name "Eigen" \
-          ! -path "$HOME/Arduino/libraries/puara/*" 2>/dev/null | head -1)
-        echo "Eigen dir: $EIGEN_DIR"
-        ln -s "$EIGEN_DIR" $PWD/src/Eigen
-        BOOST_DIR=$(find $HOME/Arduino/libraries -maxdepth 4 -type d -name "boost" \
-          2>/dev/null | head -1)
-        echo "boost dir: $BOOST_DIR"
-        ln -s "$BOOST_DIR" $PWD/src/boost
+        cd ..
+        find .
 
     # Compile Example Sketches for TinyPICO
     - name: Compile for TinyPICO
