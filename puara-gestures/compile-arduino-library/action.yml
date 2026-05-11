@@ -20,7 +20,6 @@ runs:
           arduino-cli version
           arduino-cli config init
           arduino-cli core update-index
-          find . 
 
     # Install Board Cores
     - name: Install ESP32 Core
@@ -36,7 +35,7 @@ runs:
         arduino-cli lib install "Eigen" "boost-embedded-190"
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
-        cd $HOME
+        cd ../../../../../ 
         find .
 
     # Compile Example Sketches for TinyPICO
