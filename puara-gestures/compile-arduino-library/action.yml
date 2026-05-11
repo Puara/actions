@@ -37,10 +37,17 @@ runs:
         find .
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
-        # Expose Eigen headers inside the puara src tree so transitive
-        # #include <Eigen/Core> is resolved without relying on Arduino CLI's
-        # auto-detection (which only scans direct sketch includes).
-        ln -s $HOME/Arduino/libraries/Eigen/src/Eigen $PWD/src/Eigen
+        # Expose Eigen and boost headers inside the puara src tree so transitive
+        # includes are resolved without relying on Arduino CLI's auto-detection
+        # (which only scans direct sketch includes).
+        EIGEN_DIR=$(find $HOME/Arduino/libraries -maxdepth 4 -type d -name "Eigen" \
+          ! -path "$HOME/Arduino/libraries/puara/*" 2>/dev/null | head -1)
+        echo "Eigen dir: $EIGEN_DIR"
+        ln -s "$EIGEN_DIR" $PWD/src/Eigen
+        BOOST_DIR=$(find $HOME/Arduino/libraries -maxdepth 4 -type d -name "boost" \
+          2>/dev/null | head -1)
+        echo "boost dir: $BOOST_DIR"
+        ln -s "$BOOST_DIR" $PWD/src/boost
 
     # Compile Example Sketches for TinyPICO
     - name: Compile for TinyPICO
