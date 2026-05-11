@@ -37,6 +37,10 @@ runs:
         find .
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
+        # Expose Eigen headers inside the puara src tree so transitive
+        # #include <Eigen/Core> is resolved without relying on Arduino CLI's
+        # auto-detection (which only scans direct sketch includes).
+        ln -s $HOME/Arduino/libraries/Eigen/src/Eigen $PWD/src/Eigen
 
     # Compile Example Sketches for TinyPICO
     - name: Compile for TinyPICO
