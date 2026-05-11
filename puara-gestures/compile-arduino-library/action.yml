@@ -35,8 +35,7 @@ runs:
         arduino-cli lib install "Eigen" "boost-embedded-190"
         mkdir -p $HOME/Arduino/libraries
         ln -s $PWD $HOME/Arduino/libraries/puara
-        cd ../
-        find .
+        find ./../../.. | grep Eigen
 
     # Compile Example Sketches for TinyPICO
     - name: Compile for TinyPICO
