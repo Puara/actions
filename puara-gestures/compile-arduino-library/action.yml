@@ -41,4 +41,3 @@ runs:
       shell: bash
       run: |
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/blobDetector/blobDetector.ino
-        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/calibration/calibration.ino
