@@ -45,6 +45,7 @@ runs:
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/chrono/chrono.ino
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/circularbuffer/circularbuffer.ino
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/discretizer/discretizer.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/kalmanQuaternion/kalmanQuaternion.ino
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/leakyintegrator/leakyintegrator.ino
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/maprange/maprange.ino
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/rollingminmax/rollingminmax.ino
