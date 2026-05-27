@@ -41,4 +41,13 @@ runs:
       shell: bash
       run: |
         arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/blobDetector/blobDetector.ino
-        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/calibration/calibration.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/calibration/calibration.ino 
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/chrono/chrono.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/circularbuffer/circularbuffer.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/discretizer/discretizer.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/leakyintegrator/leakyintegrator.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/maprange/maprange.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/rollingminmax/rollingminmax.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/smooth/smooth.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utils/threshold/threshold.ino
+        arduino-cli compile --fqbn esp32:esp32:um_tinypico examples/utills/wrap/wrap.ino 
